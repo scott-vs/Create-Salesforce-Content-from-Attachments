@@ -1,0 +1,40 @@
+<!-- This Visualforce page will work on any object. 
+     Just change the standard controller object -->
+
+<apex:page standardController="Case" extensions="moveToContentExt">
+    <apex:form >
+        <apex:pageBlock title="Move Attachments to Content">
+            <!-- OnClick for "Select All" Checkbox -->
+            <apex:actionFunction action="{!selectAllClick}" name="selectAllClick" reRender="myTable"/>
+            
+            <!-- Page Buttons -->
+            <apex:pageBlockButtons >
+                <apex:commandButton value="Cancel" action="{!cancel}"/>
+                <apex:commandButton value="Add to Library" action="{!addToLibrary}" reRender="myTable"/>
+            </apex:pageBlockButtons>
+            
+            <!-- Table of Attachments -->
+            <apex:pageBlockSection >
+                <apex:pageBlockTable value="{!myAttachments}" var="a" id="myTable">
+                    <apex:column >
+                        <apex:facet name="header">
+                            <apex:inputCheckbox value="{!selectAll}" onclick="selectAllClick();"/>
+                        </apex:facet>
+                        <apex:inputCheckbox value="{!a.selected}"/>
+                    </apex:column>
+                    <apex:column value="{!a.attch.Name}"/>
+                </apex:pageBlockTable>
+            </apex:pageBlockSection>
+            
+            <!-- Picklist of Libraries -->
+            <apex:pageBlockSection >
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel >Library</apex:outputLabel>
+                    <apex:selectList value="{!selectedLibrary}" size="1" multiselect="false">
+                        <apex:selectOptions value="{!libraries}"></apex:selectOptions>
+                    </apex:selectList>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>
